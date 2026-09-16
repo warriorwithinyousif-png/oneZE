@@ -1,0 +1,58 @@
+name: Build iOS App
+
+on:
+  push:
+    branches: [ "oneZE2", "main" ]
+  pull_request:
+    branches: [ "oneZE2", "main" ]
+  workflow_dispatch:
+
+jobs:
+  build-ios:
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          lfs: true
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'zulu'
+          java-version: '17'
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+          cache: true
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Build iOS Application (No Codesign)
+        run: |
+          flutter build ios --release --no-codesign
+
+      - name: Create IPA Package
+        run: |
+          mkdir -p Payload
+          cp -r build/ios/iphoneos/Runner.app Payload/
+          zip -r Zereader-iOS.ipa Payload
+          zip -r Runner.app.zip build/ios/iphoneos/Runner.app
+
+      - name: Upload IPA Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Zereader-iOS-IPA
+          path: Zereader-iOS.ipa
+          retention-days: 14
+
+      - name: Upload Runner App Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Runner-app-zip
+          path: Runner.app.zip
+          retention-days: 14

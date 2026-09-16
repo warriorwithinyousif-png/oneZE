@@ -1,0 +1,95 @@
+name: zereader
+description: "A new Flutter project"
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.7.0
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  cupertino_icons: ^1.0.8
+  provider: ^6.1.5+1
+  google_fonts: ^6.2.1
+  dio: ^5.9.0
+  path_provider: ^2.1.5
+  archive: ^4.0.7
+  photo_view: ^0.15.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_lints: ^5.0.0
+  flutter_launcher_icons: ^0.14.4
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/icon/icon.png"
+  remove_alpha_ios: true
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/icon/
+    - assets/images/grades/
+    - assets/images/Grade-1/Arabic/book1/
+    - assets/images/Grade-1/English/book1/
+    - assets/images/Grade-1/English/book2/
+    - assets/images/Grade-1/islamic_education/book1/
+    - assets/images/Grade-1/math/book1/
+    - assets/images/Grade-1/math/book2/
+    - assets/images/Grade-1/science/book1/
+    - assets/images/Grade-1/science/book2/
+    - assets/images/Grade-1/social_studies/book1/
+    - assets/images/Grade-2/Arabic/book1/
+    - assets/images/Grade-2/English/book1/
+    - assets/images/Grade-2/English/book2/
+    - assets/images/Grade-2/islamic_education/book1/
+    - assets/images/Grade-2/math/book1/
+    - assets/images/Grade-2/math/book2/
+    - assets/images/Grade-2/science/book1/
+    - assets/images/Grade-2/science/book2/
+    - assets/images/Grade-2/social_studies/book1/
+    - assets/images/Grade-3/Arabic/book1/
+    - assets/images/Grade-3/English/book1/
+    - assets/images/Grade-3/English/book2/
+    - assets/images/Grade-3/islamic_education/book1/
+    - assets/images/Grade-3/math/book1/
+    - assets/images/Grade-3/math/book2/
+    - assets/images/Grade-3/science/book1/
+    - assets/images/Grade-3/science/book2/
+    - assets/images/Grade-4/Arabic/book1/
+    - assets/images/Grade-4/Arabic/book2/
+    - assets/images/Grade-4/English/book1/
+    - assets/images/Grade-4/English/book2/
+    - assets/images/Grade-4/islamic_education/book1/
+    - assets/images/Grade-4/math/book1/
+    - assets/images/Grade-4/math/book2/
+    - assets/images/Grade-4/science/book1/
+    - assets/images/Grade-4/science/book2/
+    - assets/images/Grade-4/social_studies/book1/
+    - assets/images/Grade-5/Arabic/book1/
+    - assets/images/Grade-5/Arabic/book2/
+    - assets/images/Grade-5/English/book1/
+    - assets/images/Grade-5/English/book2/
+    - assets/images/Grade-5/islamic_education/book1/
+    - assets/images/Grade-5/math/book1/
+    - assets/images/Grade-5/math/book2/
+    - assets/images/Grade-5/science/book1/
+    - assets/images/Grade-5/science/book2/
+    - assets/images/Grade-5/social_studies/book1/
+    - assets/images/Grade-6/Arabic/book1/
+    - assets/images/Grade-6/Arabic/book2/
+    - assets/images/Grade-6/English/book1/
+    - assets/images/Grade-6/English/book2/
+    - assets/images/Grade-6/islamic_education/book1/
+    - assets/images/Grade-6/math/book1/
+    - assets/images/Grade-6/math/book2/
+    - assets/images/Grade-6/science/book1/
+    - assets/images/Grade-6/science/book2/
+    - assets/images/Grade-6/social_studies/book1/
