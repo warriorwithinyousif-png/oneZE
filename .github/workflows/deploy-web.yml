@@ -1,15 +1,26 @@
-name: Build & Deploy Flutter Web
+name: Deploy Flutter Web to GitHub Pages
 
 on:
   push:
     branches: [ "oneZE2", "main" ]
   workflow_dispatch:
 
+# Permissions required to deploy to GitHub Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
 jobs:
   build-and-deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
-    env:
-      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
 
     steps:
       - name: Checkout repository
@@ -27,21 +38,18 @@ jobs:
         run: flutter pub get
 
       - name: Build Flutter Web
-        run: flutter build web --release
+        run: |
+          flutter build web --release --base-href "/oneZE/"
+          cp build/web/index.html build/web/404.html
 
-      - name: Upload Web Build Artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: zereader-web
-          path: build/web
-          retention-days: 14
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
 
-      - name: Deploy to Vercel
-        uses: amondnet/vercel-action@v25
-        if: env.VERCEL_TOKEN != ''
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
         with:
-          vercel-token: ${{ secrets.VERCEL_TOKEN }}
-          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
-          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
-          vercel-args: '--prod'
-          working-directory: ./
+          path: 'build/web'
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
