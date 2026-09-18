@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:path_provider/path_provider.dart';
@@ -77,25 +78,27 @@ class _BooksScreenState extends State<BooksScreen> {
         }
       }
 
-      // 2. Also check local application documents directory fallback
-      final appDir = await getApplicationDocumentsDirectory();
-      final candidateDirs = [
-        Directory('${appDir.path}/Book/grade ${widget.grade.number}/${widget.subject.id}'),
-        Directory('${appDir.path}/Book/Grade-${widget.grade.number}/${widget.subject.id}'),
-      ];
+      // 2. Also check local application documents directory fallback (Native only, not Web)
+      if (!kIsWeb) {
+        final appDir = await getApplicationDocumentsDirectory();
+        final candidateDirs = [
+          Directory('${appDir.path}/Book/grade ${widget.grade.number}/${widget.subject.id}'),
+          Directory('${appDir.path}/Book/Grade-${widget.grade.number}/${widget.subject.id}'),
+        ];
 
-      for (final dir in candidateDirs) {
-        if (await dir.exists()) {
-          final entities = dir.listSync();
-          for (final entity in entities) {
-            if (entity is Directory) {
-              final folder = entity.uri.pathSegments.where((s) => s.isNotEmpty).last;
-              if (!booksFound.containsKey(folder.toLowerCase())) {
-                booksFound[folder.toLowerCase()] = Book(
-                  title: folder,
-                  path: entity.path,
-                  isAsset: false,
-                );
+        for (final dir in candidateDirs) {
+          if (await dir.exists()) {
+            final entities = dir.listSync();
+            for (final entity in entities) {
+              if (entity is Directory) {
+                final folder = entity.uri.pathSegments.where((s) => s.isNotEmpty).last;
+                if (!booksFound.containsKey(folder.toLowerCase())) {
+                  booksFound[folder.toLowerCase()] = Book(
+                    title: folder,
+                    path: entity.path,
+                    isAsset: false,
+                  );
+                }
               }
             }
           }

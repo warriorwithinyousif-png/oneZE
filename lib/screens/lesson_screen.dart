@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:path_provider/path_provider.dart';
@@ -92,8 +93,8 @@ class _LessonScreenState extends State<LessonScreen> {
           final lower = key.toLowerCase();
           return lower.startsWith(prefix) && _isImageFile(key);
         }).toList();
-      } else {
-        // Load from local file directory
+      } else if (!kIsWeb) {
+        // Load from local file directory (Native only)
         final dir = Directory(widget.book.path);
         if (await dir.exists()) {
           images = dir
@@ -105,8 +106,8 @@ class _LessonScreenState extends State<LessonScreen> {
         }
       }
 
-      // Fallback: check documents directory if assets empty
-      if (images.isEmpty) {
+      // Fallback: check documents directory if assets empty (Native only)
+      if (images.isEmpty && !kIsWeb) {
         final appDir = await getApplicationDocumentsDirectory();
         final candidateDirs = [
           Directory('${appDir.path}/Book/grade ${widget.grade.number}/${widget.subject.id}/${widget.book.path}'),
@@ -191,6 +192,14 @@ class _LessonScreenState extends State<LessonScreen> {
   Widget _buildImageWidget(String path) {
     if (path.startsWith('assets/')) {
       return Image.asset(
+        path,
+        fit: BoxFit.contain,
+        errorBuilder: (_, __, ___) => const Center(
+          child: Icon(Icons.broken_image, size: 48, color: Colors.white54),
+        ),
+      );
+    } else if (kIsWeb) {
+      return Image.network(
         path,
         fit: BoxFit.contain,
         errorBuilder: (_, __, ___) => const Center(

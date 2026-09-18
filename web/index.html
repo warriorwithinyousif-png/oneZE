@@ -1,38 +1,117 @@
 <!DOCTYPE html>
-<html>
+<html lang="ar" dir="rtl">
 <head>
-  <!--
-    If you are serving your web app in a path other than the root, change the
-    href value below to reflect the base path you are serving from.
-
-    The path provided below has to start and end with a slash "/" in order for
-    it to work correctly.
-
-    For more details:
-    * https://developer.mozilla.org/en-US/docs/Web/HTML/Element/base
-
-    This is a placeholder for base href that will be replaced by the value of
-    the `--base-href` argument provided to `flutter build`.
-  -->
   <base href="$FLUTTER_BASE_HREF">
 
   <meta charset="UTF-8">
   <meta content="IE=Edge" http-equiv="X-UA-Compatible">
-  <meta name="description" content="A new Flutter project.">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="description" content="ZEreader - منصة وقارئ تفاعلي للمناهج الدراسية للمرحلة الابتدائية">
+  <meta name="theme-color" content="#0077B6">
 
   <!-- iOS meta tags & icons -->
-  <meta name="mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="apple-mobile-web-app-title" content="ZEreader">
   <link rel="apple-touch-icon" href="icons/Icon-192.png">
 
   <!-- Favicon -->
   <link rel="icon" type="image/png" href="favicon.png"/>
 
-  <title>ZEreader</title>
+  <title>ZEreader - قارئ المناهج المدرسية</title>
   <link rel="manifest" href="manifest.json">
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      background-color: #E0F7FA;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Cairo", "Tajawal", Helvetica, Arial, sans-serif;
+      overflow: hidden;
+    }
+    #loading-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: radial-gradient(circle at center, #E0F7FA 0%, #B2EBF2 100%);
+      z-index: 99999;
+      transition: opacity 0.4s ease, visibility 0.4s ease;
+    }
+    .loading-card {
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      padding: 32px 40px;
+      border-radius: 24px;
+      box-shadow: 0 10px 30px rgba(0, 119, 182, 0.12), 0 1px 4px rgba(0, 0, 0, 0.05);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 18px;
+    }
+    .app-logo {
+      width: 72px;
+      height: 72px;
+      border-radius: 18px;
+      box-shadow: 0 6px 18px rgba(0, 119, 182, 0.2);
+    }
+    .app-title {
+      font-size: 22px;
+      font-weight: 700;
+      color: #0077B6;
+      letter-spacing: -0.5px;
+    }
+    .spinner {
+      width: 38px;
+      height: 38px;
+      border: 3.5px solid rgba(0, 119, 182, 0.15);
+      border-top-color: #0077B6;
+      border-radius: 50%;
+      animation: spin 0.9s cubic-bezier(0.6, 0.2, 0.4, 0.8) infinite;
+    }
+    .loading-text {
+      font-size: 14px;
+      color: #0096C7;
+      font-weight: 500;
+    }
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+  </style>
 </head>
 <body>
+  <div id="loading-container">
+    <div class="loading-card">
+      <img src="favicon.png" alt="ZEreader Logo" class="app-logo" onerror="this.style.display='none'">
+      <div class="app-title">ZEreader</div>
+      <div class="spinner"></div>
+      <div class="loading-text">جارٍ تجهيز المحتوى...</div>
+    </div>
+  </div>
+
+  <script>
+    window.addEventListener('flutter-first-frame', function () {
+      var loader = document.getElementById('loading-container');
+      if (loader) {
+        loader.style.opacity = '0';
+        setTimeout(function () {
+          loader.remove();
+        }, 400);
+      }
+    });
+  </script>
+
   <script src="flutter_bootstrap.js" async></script>
 </body>
 </html>
